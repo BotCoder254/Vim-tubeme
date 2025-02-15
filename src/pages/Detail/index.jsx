@@ -21,11 +21,9 @@ const Detail = () => {
   const [token, setToken] = useState(null);
   const observer = useRef();
   const lastVideoRef = useRef();
+  const [isPreview, setIsPreview] = useState(false);
 
-  //arama parametrelerine erişim için kurulum
   const [searcParams] = useSearchParams();
-
-  //url`deki "v" isimli parametreye eriş
   const id = searcParams.get("v");
 
   const loadMoreSuggested = useCallback(async () => {
@@ -36,22 +34,24 @@ const Detail = () => {
       const params = { id, extend: 1, token };
       const res = await api.get("/video/info", { params });
       
-      const newVideos = res.data.relatedVideos.data || [];
-      setSuggestedVideos(prev => [...prev, ...newVideos]);
+      const newVideos = res.data.relatedVideos?.data || [];
+      if (newVideos.length > 0) {
+        setSuggestedVideos(prev => [...prev, ...newVideos]);
+      }
       
-      if (res.data.relatedVideos.continuation) {
+      if (res.data.relatedVideos?.continuation) {
         setToken(res.data.relatedVideos.continuation);
       } else {
         setHasMore(false);
       }
     } catch (err) {
       console.error('Error loading more videos:', err);
+      setHasMore(false);
     } finally {
       setIsLoadingMore(false);
     }
   }, [id, token, isLoadingMore, hasMore]);
 
-  // Intersection Observer setup
   const lastVideoCallback = useCallback(node => {
     if (isLoadingMore) return;
 
@@ -63,6 +63,10 @@ const Detail = () => {
       if (entries[0].isIntersecting && hasMore) {
         loadMoreSuggested();
       }
+    }, {
+      root: null,
+      rootMargin: '100px',
+      threshold: 0.1
     });
 
     if (node) {
@@ -205,26 +209,26 @@ const Detail = () => {
 
   return (
     <div className="detail-page h-screen overflow-auto">
-      <div className="page-content ">
-        {/* video içeriği */}
-        <div>
-          {/* video */}
-          <div className="h-[30vh] md:h-[50vh] lg:h-[60vh] rounded overflow-hidden ">
+      <div className="page-content grid grid-cols-1 lg:grid-cols-3 gap-4 p-4">
+        <div className="lg:col-span-2">
+          <div className="h-[30vh] md:h-[50vh] lg:h-[60vh] rounded overflow-hidden">
             <ReactPlayer
               height={"100%"}
               width={"100%"}
+              loop={true}
               controls
+              playing={!isPreview}
               url={`https://www.youtube.com/watch?v=${id}`}
+              onClickPreview={() => setIsPreview(false)}
+              onEnablePIP={() => setIsPreview(false)}
             />
           </div>
-          {/* açıklamalar */}
           {error ? (
             <Error info={error} />
           ) : !video ? (
             <BasicLoader />
           ) : (
             <div>
-              {/* Başlık ve Download Buttons */}
               <div className="my-3 space-y-4">
                 <h1 className="text-xl font-bold">{video.title}</h1>
                 <div className="flex gap-2">
@@ -258,7 +262,6 @@ const Detail = () => {
                   </button>
                 </div>
                 
-                {/* Download Progress Bar */}
                 {isDownloading && downloadProgress > 0 && (
                   <div className="w-full bg-gray-200 rounded-full h-2.5">
                     <div 
@@ -269,7 +272,6 @@ const Detail = () => {
                 )}
               </div>
               
-              {/* Download Status */}
               {downloadStatus && (
                 <div className={`mt-2 text-sm ${
                   downloadStatus.type === 'error' 
@@ -282,32 +284,34 @@ const Detail = () => {
                 </div>
               )}
 
-              {/* kanal bilgileri */}
               <Channel video={video} />
-              {/*açıklama */}
               <Description video={video} />
-              {/* yorumlar */}
               <Comments videoId={id} />
             </div>
           )}
         </div>
 
-        {/* önerilen videolar */}
-        <div className="flex flex-col gap-5 p-1">
-          {suggestedVideos.map((item, index) => {
-            if (item.type !== "video") return null;
-            
-            if (index === suggestedVideos.length - 1) {
-              return (
-                <div ref={lastVideoCallback} key={item.videoId}>
-                  <Card video={item} isRow={true} />
-                </div>
-              );
-            }
-            
-            return <Card key={item.videoId} video={item} isRow={true} />;
-          })}
-          {isLoadingMore && <BasicLoader />}
+        <div className="lg:col-span-1">
+          <div className="suggested-videos flex flex-col gap-4 sticky top-4">
+            {suggestedVideos.map((item, index) => {
+              if (item.type !== "video") return null;
+              
+              if (index === suggestedVideos.length - 1) {
+                return (
+                  <div ref={lastVideoCallback} key={item.videoId}>
+                    <Card video={item} isRow={true} />
+                  </div>
+                );
+              }
+              
+              return <Card key={item.videoId} video={item} isRow={true} />;
+            })}
+            {isLoadingMore && (
+              <div className="flex justify-center py-4">
+                <BasicLoader />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
