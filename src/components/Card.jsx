@@ -1,6 +1,7 @@
 import millify from "millify";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { BsFillPlayFill } from "react-icons/bs";
 
 const Card = ({ video, isRow }) => {
   const [isHover, setIsHover] = useState(false);
@@ -24,8 +25,11 @@ const Card = ({ video, isRow }) => {
       onMouseLeave={() => setIsHover(false)}
     >
       {/* Resim alanı */}
-      <div className="aspect-video">
+      <div className="aspect-video relative group">
         <img className="rounded-lg w-full h-full object-cover" src={thumbnail} alt="" />
+        <div className="absolute inset-0 flex items-center justify-center opacity-0  hover:opacity-200 transition-opacity">
+          <BsFillPlayFill className="text-blue-500 text-6xl hover:text-blue-600 cursor-pointer bg-white/80 rounded-full p-2" />
+        </div>
       </div>
 
       {/* Alt detay alanı */}
