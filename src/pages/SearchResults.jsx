@@ -82,32 +82,34 @@ const SearchResults = () => {
   }, [query]);
 
   return (
-    <div className="rs p-4 sm:p-6 md:p-10 h-[93vh] overflow-y-auto">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-xl mb-5 text-center">
-          <span className="font-bold">{query}</span> için sonuçlar
+    <div className="rs p-4 sm:p-6 md:p-8 h-[93vh] overflow-y-auto">
+      <div className="max-w-[1200px] mx-auto">
+        <h2 className="text-xl mb-6 text-center">
+          <span className="font-bold">{query}</span> 
         </h2>
-        <div className="wrapper flex flex-col gap-5 items-center">
+        <div className="wrapper flex flex-col gap-6 items-stretch">
           {error ? (
             <Error info={error} />
           ) : (
             data.map((item, index) => {
               if (item.type !== "video") return null;
               
+              const videoElement = (
+                <div className="w-full max-w-[1000px] mx-auto hover:bg-zinc-800/40 rounded-xl p-3 transition-all">
+                  <Card video={item} isRow={true} />
+                </div>
+              );
+              
               // Add ref to last item
               if (index === data.length - 1) {
                 return (
-                  <div ref={lastVideoCallback} key={item.videoId} className="w-full">
-                    <Card video={item} isRow={true} />
+                  <div ref={lastVideoCallback} key={item.videoId}>
+                    {videoElement}
                   </div>
                 );
               }
               
-              return (
-                <div key={item.videoId} className="w-full">
-                  <Card video={item} isRow={true} />
-                </div>
-              );
+              return <div key={item.videoId}>{videoElement}</div>;
             })
           )}
           {isLoading && <BasicLoader />}
