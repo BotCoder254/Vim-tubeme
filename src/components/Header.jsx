@@ -15,46 +15,45 @@ const Header = () => {
     e.preventDefault();
     const text = searchText.trim();
     if (text) {
-      navigate(`/results?search_query=${text}`);
+      navigate(`/results?search_query=${encodeURIComponent(text)}`);
     }
   };
 
+  const handleSearchChange = (e) => {
+    setSearchText(e.target.value);
+  };
+
   return (
-    <header className="flex justify-between items-center px-2 py-3 sm:px-4 border-b border-zinc-800">
-      <Link 
-        className="flex items-center gap-2 min-w-[100px]" 
-        to={"/?v=Anasayfa"}
-      >
-        <img 
-          className="w-8 sm:w-10" 
-          src="/youtube.png" 
-          alt="YouTube Logo" 
-        />
-        <h1 className="text-lg sm:text-xl font-roboto hidden sm:block">
-          Vim Tube
-        </h1>
+    <header className="flex justify-between items-center px-2 py-4 sm:px-4">
+      <Link className="flex items-center gap-2" to={"/?v=Anasayfa"}>
+        <img className="w-10 sm:w-12" src="/youtube.png" alt="YouTube Logo" />
+        <h1 className="text-xl sm:text-2xl font-roboto">YouTube</h1>
       </Link>
 
       <form
         onSubmit={handleSubmit}
-        className="flex border border-zinc-700 rounded-[20px] overflow-hidden flex-1 mx-2 sm:mx-4 max-w-[600px]"
+        className="flex border border-zinc-700 rounded-[20px] overflow-hidden"
       >
         <input
           value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          className="px-2 sm:px-6 bg-black outline-none py-1 text-white w-full border border-transparent rounded-l-[20px] focus:border-blue-300 text-sm sm:text-base"
+          onChange={handleSearchChange}
+          className="px-3 sm:px-5 bg-black outline-none py-1 text-white border border-transparent rounded-l-[20px] focus:border-blue-300"
           type="text"
-          placeholder="Vim Search"
+          placeholder="Ara"
         />
         <button
-          className="px-2 sm:px-4 text-lg sm:text-2xl bg-zinc-800 hover:bg-zinc-700 transition duration-300"
+          className="px-3 sm:px-4 sm:text-2xl bg-zinc-800 hover:bg-zinc-600 transition duration-300 cursor-pointer"
           type="submit"
         >
           <IoIosSearch />
         </button>
       </form>
 
-      <div className="w-[100px]" /> {/* Spacer for balance */}
+      <div className="flex gap-3 text-lg cursor-pointer max-sm:hidden">
+        <FaBell className="hover:text-gray-400" />
+        <FaVideo className="hover:text-gray-400" />
+        <MdVideoLibrary className="hover:text-gray-400" />
+      </div>
     </header>
   );
 };
