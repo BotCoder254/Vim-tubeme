@@ -2,9 +2,19 @@
 
 @import "tailwindcss";
 
+/* Add these color variables at the top */
+:root {
+  --primary: #3674B5;
+  --secondary: #578FCA;
+  --light-blue: #A1E3F9;
+  --pale-blue: #D1F8EF;
+  --dark-bg: #1a1a1a;
+  --card-bg: #242424;
+}
+
 body {
-  background: #0f0f0f;
-  color: white;
+  background: var(--dark-bg);
+  color: var(--pale-blue);
   font-family: "Roboto", sans-serif;
   margin: 0; /* Sayfa margin'ini sıfırlıyoruz */
   padding: 0; /* Sayfa padding'ini sıfırlıyoruz */
@@ -27,12 +37,13 @@ body::-webkit-scrollbar-thumb {
 .videos {
   width: 100%; /* Video container'ı genişlik olarak %100 olmalı */
   height: calc(100vh - 67px); /* Sayfa yüksekliğini ayarlıyoruz */
-  padding: 20px;
+  padding: 16px;
   overflow-y: auto; /* Yalnızca dikey kaydırma */
   overflow-x: hidden; /* Yatay kaydırma engelleniyor */
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 50px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  transition: all 0.3s ease;
 }
 
 .videos::-webkit-scrollbar {
@@ -72,15 +83,26 @@ body::-webkit-scrollbar-thumb {
 
 /* Yatay card düzeni */
 .col {
-  display: grid;
-  grid-template-rows: 168px auto;
-  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.col:hover {
+  transform: translateY(-2px);
 }
 
 .row {
   display: grid;
-  grid-template-columns: 168px auto;
-  gap: 20px;
+  grid-template-columns: 120px auto;
+  gap: 12px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 8px;
 }
 
 .row .pp,
@@ -118,3 +140,156 @@ body::-webkit-scrollbar-thumb {
     grid-template-columns: 1fr 3fr;
   }
 }
+
+/* Mobile-first responsive grid */
+@media (min-width: 640px) {
+  .videos {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+    padding: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .videos {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 32px;
+    padding: 32px;
+  }
+}
+
+/* Card layouts */
+.col {
+  display: flex;
+  flex-direction: column;
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.col:hover {
+  transform: translateY(-2px);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 120px auto;
+  gap: 12px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 8px;
+}
+
+@media (min-width: 640px) {
+  .row {
+    grid-template-columns: 168px auto;
+    gap: 16px;
+    padding: 12px;
+  }
+}
+
+/* Scrollbar styling */
+.videos::-webkit-scrollbar,
+.detail-page::-webkit-scrollbar {
+  width: 8px;
+  background: var(--dark-bg);
+}
+
+.videos::-webkit-scrollbar-thumb,
+.detail-page::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 8px;
+}
+
+/* Sidebar and Navigation Styles */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  background: var(--card-bg);
+  width: 240px;
+  transition: all 0.3s ease;
+  z-index: 40;
+}
+
+/* Mobile Bottom Navigation */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--card-bg);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 0;
+  z-index: 50;
+}
+
+.mobile-nav-icons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 0 16px;
+}
+
+.mobile-nav-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--pale-blue);
+  font-size: 0.75rem;
+}
+
+/* Responsive Layout Adjustments */
+@media (max-width: 768px) {
+  .sidebar {
+    display: none; /* Hide sidebar on mobile */
+  }
+  
+  .mobile-nav {
+    display: block; /* Show bottom navigation */
+  }
+  
+  .videos {
+    height: calc(100vh - 120px); /* Adjust for bottom nav */
+    padding-bottom: 72px; /* Add padding for bottom nav */
+  }
+  
+  .page-content {
+    padding: 20px 16px 72px 16px; /* Add bottom padding for nav */
+  }
+}
+
+/* Tablet Adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .sidebar {
+    width: 72px; /* Collapsed sidebar with icons only */
+  }
+  
+  .sidebar-text {
+    display: none; /* Hide text, show only icons */
+  }
+  
+  .videos {
+    margin-left: 72px;
+  }
+  
+  .page-content {
+    margin-left: 72px;
+  }
+}
+
+/* Hover effects */
+@media (hover: hover) {
+  .card-hover {
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-2px);
+  }
+}
+
