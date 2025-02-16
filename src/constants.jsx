@@ -2,50 +2,53 @@ import { AiFillHome, AiOutlineFlag } from "react-icons/ai";
 import { MdLocalFireDepartment, MdLiveTv } from "react-icons/md";
 import { CgMusicNote } from "react-icons/cg";
 import { FiFilm } from "react-icons/fi";
-import { IoGameControllerSharp } from "react-icons/io5";
+// import { IoGameControllerSharp } from "react-icons/io5";
+import { SiRepublicofgamers ,SiScikitlearn } from "react-icons/si";
 import { ImNewspaper } from "react-icons/im";
-import { GiDiamondTrophy, GiEclipse } from "react-icons/gi";
+import { GiDiamondTrophy, GiEclipse ,GiLargeDress } from "react-icons/gi";
+import { TiSocialYoutubeCircular } from "react-icons/ti";
 import { RiLightbulbLine, RiFeedbackLine } from "react-icons/ri";
 import { FiSettings, FiHelpCircle } from "react-icons/fi";
-
+import { FcHome ,FcMusic,FcVideoCall ,FcNews ,FcSportsMode } from "react-icons/fc";
+import { FaFire } from "react-icons/fa";
 // Kategoriler
 export const categories = [
-  { name: "Home", icon: <AiFillHome />, path: "/" },
+  { name: "Home", icon: <FcHome />, path: "/" },
   {
     name: "Trending",
-    icon: <MdLocalFireDepartment />,
+    icon: <FaFire />,
     path: "trending",
   },
   {
     name: "Music",
-    icon: <CgMusicNote />,
+    icon: <FcMusic />,
     path: "music",
   },
-  { name: "Movies", icon: <FiFilm />, path: "movies" },
-  { name: "Live", icon: <MdLiveTv />, path: "live" },
+  { name: "Movies", icon: <FcVideoCall />, path: "movies" },
+  { name: "Live", icon: <TiSocialYoutubeCircular />, path: "live" },
   {
     name: "Gaming",
-    icon: <IoGameControllerSharp />,
+    icon: <SiRepublicofgamers />,
     path: "gaming",
   },
   {
     name: "News",
-    icon: <ImNewspaper />,
+    icon: <FcNews />,
     path: "news",
   },
   {
     name: "Sports",
-    icon: <GiDiamondTrophy />,
+    icon: <FcSportsMode />,
     path: "sports",
   },
   {
     name: "Learning",
-    icon: <RiLightbulbLine />,
+    icon: <SiScikitlearn />,
     path: "learning",
   },
   {
     name: "Beauty & Cosmetics",
-    icon: <GiEclipse />,
+    icon: <GiLargeDress />,
     path: "beauty",
     divider: false,
   },

@@ -33,10 +33,10 @@ const Card = ({ video, isRow }) => {
       </div>
 
       {/* Alt detay alanı */}
-      <div className="flex gap-4">
+      <div className="flex gap-4 pt-8">
         <img className="size-14 rounded-full pp" src={channelPic} alt="" />
         <div>
-          <h4 className="font-bold text-[#e7e7e7] line-clamp-2 pt-8">
+          <h4 className="font-bold text-[#e7e7e7] line-clamp-2 pt-4">
             {video?.title}
           </h4>
           <div className="text-[#aaaaaa] mt-1.5 ">

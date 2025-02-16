@@ -2,19 +2,9 @@
 
 @import "tailwindcss";
 
-/* Add these color variables at the top */
-:root {
-  --primary: #3674B5;
-  --secondary: #578FCA;
-  --light-blue: #A1E3F9;
-  --pale-blue: #D1F8EF;
-  --dark-bg: #1a1a1a;
-  --card-bg: #242424;
-}
-
 body {
-  background: var(--dark-bg);
-  color: var(--pale-blue);
+  background: #0f0f0f;
+  color: white;
   font-family: "Roboto", sans-serif;
   margin: 0; /* Sayfa margin'ini sıfırlıyoruz */
   padding: 0; /* Sayfa padding'ini sıfırlıyoruz */
@@ -35,15 +25,15 @@ body::-webkit-scrollbar-thumb {
 
 /* İçeriklerin taşma davranışı */
 .videos {
-  width: 100%; /* Video container'ı genişlik olarak %100 olmalı */
-  height: calc(100vh - 67px); /* Sayfa yüksekliğini ayarlıyoruz */
+  width: 100%;
+  height: calc(100vh - 67px);
   padding: 16px;
-  overflow-y: auto; /* Yalnızca dikey kaydırma */
-  overflow-x: hidden; /* Yatay kaydırma engelleniyor */
+  overflow-y: auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
-  transition: all 0.3s ease;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  justify-items: center;
+  padding-bottom: 80px;
 }
 
 .videos::-webkit-scrollbar {
@@ -83,26 +73,15 @@ body::-webkit-scrollbar-thumb {
 
 /* Yatay card düzeni */
 .col {
-  display: flex;
-  flex-direction: column;
-  background: var(--card-bg);
-  border-radius: 12px;
-  overflow: hidden;
-  transition: transform 0.2s ease;
-}
-
-.col:hover {
-  transform: translateY(-2px);
+  display: grid;
+  grid-template-rows: 168px auto;
+  gap: 20px;
 }
 
 .row {
   display: grid;
-  grid-template-columns: 120px auto;
-  gap: 12px;
-  background: var(--card-bg);
-  border-radius: 12px;
-  overflow: hidden;
-  padding: 8px;
+  grid-template-columns: 168px auto;
+  gap: 20px;
 }
 
 .row .pp,
@@ -141,88 +120,38 @@ body::-webkit-scrollbar-thumb {
   }
 }
 
-/* Mobile-first responsive grid */
-@media (min-width: 640px) {
-  .videos {
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 24px;
-    padding: 24px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .videos {
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 32px;
-    padding: 32px;
-  }
-}
-
-/* Card layouts */
-.col {
-  display: flex;
-  flex-direction: column;
-  background: var(--card-bg);
-  border-radius: 12px;
-  overflow: hidden;
-  transition: transform 0.2s ease;
-}
-
-.col:hover {
-  transform: translateY(-2px);
-}
-
-.row {
-  display: grid;
-  grid-template-columns: 120px auto;
-  gap: 12px;
-  background: var(--card-bg);
-  border-radius: 12px;
-  overflow: hidden;
-  padding: 8px;
-}
-
-@media (min-width: 640px) {
-  .row {
-    grid-template-columns: 168px auto;
-    gap: 16px;
-    padding: 12px;
-  }
-}
-
-/* Scrollbar styling */
-.videos::-webkit-scrollbar,
-.detail-page::-webkit-scrollbar {
-  width: 8px;
-  background: var(--dark-bg);
-}
-
-.videos::-webkit-scrollbar-thumb,
-.detail-page::-webkit-scrollbar-thumb {
-  background: var(--secondary);
-  border-radius: 8px;
-}
-
-/* Sidebar and Navigation Styles */
-.sidebar {
-  position: fixed;
-  left: 0;
+/* Header adjustments */
+header {
+  position: sticky;
   top: 0;
-  height: 100vh;
-  background: var(--card-bg);
-  width: 240px;
-  transition: all 0.3s ease;
   z-index: 40;
+  background: #0f0f0f;
+  padding: 8px 16px;
 }
 
-/* Mobile Bottom Navigation */
+@media (max-width: 640px) {
+  header form {
+    max-width: 160px;
+  }
+  
+  header input {
+    width: 120px;
+    padding: 4px 8px;
+  }
+  
+  header h1 {
+    display: none;
+  }
+}
+
+/* Mobile Navigation refinements */
 .mobile-nav {
   display: none;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: var(--card-bg);
+  background: #0f0f0f;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding: 8px 0;
   z-index: 50;
@@ -239,57 +168,55 @@ body::-webkit-scrollbar-thumb {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: var(--pale-blue);
-  font-size: 0.75rem;
+  justify-content: center;
+  gap: 4px;
+  color: #fff;
+  text-decoration: none;
+  padding: 6px 0;
 }
 
-/* Responsive Layout Adjustments */
+.mobile-nav-icon span:first-child {
+  font-size: 20px;
+}
+
+.mobile-nav-icon span:last-child {
+  font-size: 12px;
+}
+
+/* Responsive breakpoints */
 @media (max-width: 768px) {
+  .videos {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    height: calc(100vh - 130px);
+    padding: 12px;
+  }
+  
   .sidebar {
-    display: none; /* Hide sidebar on mobile */
+    display: none;
   }
   
   .mobile-nav {
-    display: block; /* Show bottom navigation */
-  }
-  
-  .videos {
-    height: calc(100vh - 120px); /* Adjust for bottom nav */
-    padding-bottom: 72px; /* Add padding for bottom nav */
+    display: block;
   }
   
   .page-content {
-    padding: 20px 16px 72px 16px; /* Add bottom padding for nav */
+    padding: 16px 16px 72px 16px;
   }
 }
 
-/* Tablet Adjustments */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .sidebar {
-    width: 72px; /* Collapsed sidebar with icons only */
-  }
-  
-  .sidebar-text {
-    display: none; /* Hide text, show only icons */
-  }
-  
+@media (max-width: 480px) {
   .videos {
-    margin-left: 72px;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 12px 8px;
   }
   
-  .page-content {
-    margin-left: 72px;
-  }
-}
-
-/* Hover effects */
-@media (hover: hover) {
-  .card-hover {
-    transition: transform 0.2s ease-in-out;
+  header form {
+    max-width: 140px;
   }
   
-  .card-hover:hover {
-    transform: translateY(-2px);
+  .mobile-nav-icon span:last-child {
+    font-size: 10px;
   }
 }
-
