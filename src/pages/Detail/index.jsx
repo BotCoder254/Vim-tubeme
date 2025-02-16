@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
-import api from "../../api";
+import api from "../../api/index.js";
+import backend from "../../api/backend.js";
 import ReactPlayer from "react-player";
 import Channel from "./Channel";
 import Description from "./Description";
@@ -76,11 +77,11 @@ const Detail = () => {
 
   const checkVideoAvailability = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/info?videoId=${id}`);
+      const response = await backend.get(`/info?videoId=${id}`);
       if (!response.ok) {
         throw new Error('Failed to check video availability');
       }
-      const data = await response.json();
+      const data = response.data;
       
       if (!data.available) {
         throw new Error('Video is not available for download');
@@ -106,7 +107,6 @@ const Detail = () => {
     });
 
     try {
-      // Check if video is available for download
       const videoInfo = await checkVideoAvailability();
       if (!videoInfo) {
         setIsDownloading(false);
@@ -118,11 +118,11 @@ const Detail = () => {
         message: `Starting ${format} download...`
       });
 
-      // Create download URL
-      const downloadUrl = `http://localhost:5000/download?videoId=${id}&format=${format}`;
+      // Create download URL using backend API
+      const downloadUrl = `/download?videoId=${id}&format=${format}`;
       
-      // Start download using fetch
-      const response = await fetch(downloadUrl);
+      // Start download using fetch with backend URL
+      const response = await fetch(`${backend.defaults.baseURL}${downloadUrl}`);
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

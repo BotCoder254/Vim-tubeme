@@ -2,7 +2,8 @@ import { useSearchParams } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Card from "../components/Card";
 import { useEffect, useState, useCallback, useRef } from "react";
-import api from "../api/index";
+import api from "../api/index.js";
+import backend from "../api/backend.js";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
 
@@ -32,13 +33,17 @@ const Feed = () => {
       const params = token ? { token } : {};
       const res = await api.get(url, { params });
       
-      const newVideos = res.data.data;
-      setVideos(prev => [...prev, ...newVideos]);
-      
-      if (res.data.continuation) {
-        setToken(res.data.continuation);
+      if (res.data && Array.isArray(res.data.data)) {
+        const newVideos = res.data.data;
+        setVideos(prev => [...prev, ...newVideos]);
+        
+        if (res.data.continuation) {
+          setToken(res.data.continuation);
+        } else {
+          setHasMore(false);
+        }
       } else {
-        setHasMore(false);
+        throw new Error('Invalid data format received');
       }
     } catch (err) {
       setError(err.message);
@@ -83,9 +88,13 @@ const Feed = () => {
     api
       .get(url)
       .then((res) => {
-        setVideos(res.data.data);
-        setToken(res.data.continuation);
-        setHasMore(!!res.data.continuation);
+        if (res.data && Array.isArray(res.data.data)) {
+          setVideos(res.data.data);
+          setToken(res.data.continuation);
+          setHasMore(!!res.data.continuation);
+        } else {
+          throw new Error('Invalid data format received');
+        }
       })
       .catch((err) => setError(err.message))
       .finally(() => setIsLoading(false));
@@ -99,14 +108,13 @@ const Feed = () => {
           {error ? (
             <Error info={error} />
           ) : (
-            videos.map((item, index) => {
-              if (item.type !== "video") return null;
+            videos?.map((item, index) => {
+              if (!item || item.type !== "video") return null;
               
               if (index === videos.length - 1) {
                 return (
                   <div ref={lastVideoCallback} key={item.videoId}>
                     <Card video={item} />
-                    
                   </div>
                 );
               }

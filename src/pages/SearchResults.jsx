@@ -24,7 +24,7 @@ const SearchResults = () => {
     setIsLoading(true);
     try {
       const params = { query, token };
-      const res = await api.get("/search", { params });
+      const res = await api.get("/video/search", { params });
       
       const newData = res.data.data;
       setData(prev => [...prev, ...newData]);
@@ -71,7 +71,7 @@ const SearchResults = () => {
     setError(null);
 
     const params = { query };
-    api.get("/search", { params })
+    api.get("/video/search", { params })
       .then((res) => {
         setData(res.data.data);
         setToken(res.data.continuation);

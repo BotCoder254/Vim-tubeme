@@ -34,7 +34,7 @@ const cleanupWatchFiles = () => {
 // Clean up any existing watch.html files on server start
 cleanupWatchFiles();
 
-app.get('/download', async (req, res) => {
+app.get('/video/download', async (req, res) => {
   try {
     const { videoId, format } = req.query;
     if (!videoId) {
@@ -199,7 +199,7 @@ app.get('/download', async (req, res) => {
   }
 });
 
-app.get('/info', async (req, res) => {
+app.get('/video/info', async (req, res) => {
   try {
     const { videoId } = req.query;
     if (!videoId) {
@@ -244,6 +244,51 @@ app.get('/info', async (req, res) => {
     });
   }
 });
+
+// Add new endpoints for home, trending, and search
+// app.get('/home', async (req, res) => {
+//   try {
+//     // Your home feed logic here
+//     const data = {
+//       data: [], // Your video data array
+//       continuation: null // Optional continuation token
+//     };
+//     res.json(data);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
+// app.get('/tranding', async (req, res) => {
+//   try {
+//     // Your trending videos logic here
+//     const data = {
+//       data: [], // Your trending videos array
+//       continuation: null // Optional continuation token
+//     };
+//     res.json(data);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
+// app.get('/search', async (req, res) => {
+//   try {
+//     const { query, token } = req.query;
+//     if (!query) {
+//       return res.status(400).json({ error: 'Search query is required' });
+//     }
+
+//     // Your search logic here
+//     const data = {
+//       data: [], // Your search results array
+//       continuation: null // Optional continuation token
+//     };
+//     res.json(data);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
