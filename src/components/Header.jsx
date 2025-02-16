@@ -35,7 +35,7 @@ const Header = () => {
     <header className="flex justify-between items-center px-2 py-4 sm:px-4">
       <Link className="flex items-center gap-2" to={"/?v=Anasayfa"}>
         <img className="w-10 sm:w-12" src="/youtube.png" alt="YouTube Logo" />
-        <h1 className="text-xl sm:text-2xl font-roboto">YouTube</h1>
+        <h1 className="text-xl sm:text-2xl font-roboto">Vim Tube</h1>
       </Link>
 
       <form
@@ -45,9 +45,9 @@ const Header = () => {
         <input
           value={searchText} // Değer kontrolü
           onChange={handleSearchChange} // Değeri güncelle
-          className="px-3 sm:px-5 bg-black outline-none py-1 text-white border border-transparent rounded-l-[20px] focus:border-blue-300"
+          className="px-8 sm:px-10 bg-black outline-none py-1 text-white border border-transparent rounded-l-[20px] focus:border-blue-300"
           type="text"
-          placeholder="Ara"
+          placeholder="Vim Search"
         />
         <button
           className="px-3 sm:px-4 sm:text-2xl bg-zinc-800 hover:bg-zinc-600 transition duration-300 cursor-pointer"
@@ -57,11 +57,11 @@ const Header = () => {
         </button>
       </form>
 
-      <div className="flex gap-3 text-lg cursor-pointer max-sm:hidden">
+      {/* <div className="flex gap-3 text-lg cursor-pointer max-sm:hidden">
         <FaBell className="hover:text-gray-400" />
         <FaVideo className="hover:text-gray-400" />
         <MdVideoLibrary className="hover:text-gray-400" />
-      </div>
+      </div> */}
     </header>
   );
 };
